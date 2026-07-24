@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page Pulse</title>
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    margin: 0;
+    padding: 40px;
+}
+
+.container {
+    max-width: 700px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #222;
+}
+
+.input-box {
+    display: flex;
+    gap: 10px;
+}
+
+input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+button {
+    padding: 12px 20px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+}
+
+button:hover {
+    background: #1d4ed8;
+}
+
+#result {
+    margin-top: 25px;
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+}
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🚀 Page Pulse</h1>
+
+<p>Enter a website URL to audit:</p>
+
+<input id="url" placeholder="https://example.com">
+
+<button onclick="auditPage()">Audit</button>
+
+<div id="result">
+    Results will appear here...
+</div>
+
+
+<footer>
+    <a href="https://digitalheroesco.com" target="_blank">
+        Built for Digital Heroes Training Task
+    </a>
+</footer>
+
+
+<script>
+
+async function auditPage() {
+
+    const url = document.getElementById("url").value;
+
+    const result = document.getElementById("result");
+
+    result.innerHTML = "Checking...";
+
+    try {
+
+        const response = await fetch("/audit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                url: url
+            })
+        });
+
+
+        const data = await response.json();
+
+
+        if(data.error){
+            result.innerHTML = `
+                <h3>Error</h3>
+                <p>${data.error}</p>
+            `;
+            return;
+        }
+
+
+        result.innerHTML = `
+            <h2>Audit Report</h2>
+
+            <p><b>Status Code:</b> ${data.status_code}</p>
+            <p><b>Response Time:</b> ${data.response_time} seconds</p>
+            <p><b>Title:</b> ${data.title}</p>
+            <p><b>Meta Description:</b> ${data.meta_description}</p>
+            <p><b>H1 Count:</b> ${data.h1_count}</p>
+            <p><b>Images Missing Alt:</b> ${data.images_missing_alt}</p>
+            <p><b>Word Count:</b> ${data.word_count}</p>
+        `;
+
+    }
+
+    catch(error){
+
+        result.innerHTML = `
+        <p>Something went wrong.</p>
+        `;
+
+    }
+
+}
+
+</script>
+</div>
+</body>
+</html>
