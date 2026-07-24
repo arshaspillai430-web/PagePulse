@@ -1,4 +1,4 @@
-# Page Pulse 🚀
+# Page Pulse 
 
 Page Pulse is a web-based URL auditing tool that analyzes a webpage and generates a report containing important page metrics.
 
